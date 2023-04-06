@@ -29,9 +29,11 @@ namespace BlueMates.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
+
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnection");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-MQBHEA6\\SQLEXPRESS;Database=BlueMates;Trusted_Connection=True;TrustServerCertificate=Yes;");
             }
         }
 
@@ -210,7 +212,7 @@ namespace BlueMates.Models
                     .IsUnicode(false)
                     .HasColumnName("name");
 
-                entity.Property(e => e.OrganizerId).HasColumnName("organizer_id");
+                entity.Property(e => e.OrganizerId).HasColumnName("organizer_id").IsUnicode(false).HasMaxLength(450);
 
                 entity.Property(e => e.Pic)
                     .IsUnicode(false)

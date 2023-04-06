@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BlueMates.Models.Event>
+
+@{
+    ViewData["Title"] = "Coming up events";
+}
+
+<link rel="stylesheet" href="./css/cards.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<h1>Here you can see all the upcoming events</h1>
+
+<p>
+    <a asp-action="Create">Add your own event</a>
+</p>
+
+
+<div>
+@foreach (var item in Model)
+    {
+        <div class="card">
+
+            <img src="@Html.DisplayFor(modelItem => item.Pic)" alt="Avatar" style="width:100%" onclick="location.href='@Url.Action("Details", "Events", new {id = item.Id})'">
+        <div class="container">
+            <h4 onclick ="location.href='@Url.Action("Details", "Events", new {id = item.Id})'"><b>@item.Name</b></h4>
+            <b>@item.StartDate</b>
+            <b style ="display: block;">@item.Description</b>
+                <button class="button going">Going</button>
+                <button class="button interested">Interested</button>
+
+        </div>
+    </div>
+        <p>&nbsp&nbsp&nbsp&nbsp</p>
+
+
+    }
+</div>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BlueMates.Controllers.EventsOfInterestResults>
+
+@{
+    ViewData["Title"] = "Events you interacted with";
+}
+
+<h1>Here you can see all the events you interacted with</h1>
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="card">
+
+            <img src="@Html.DisplayFor(modelItem => item.Event.Pic)" alt="Avatar" style="width:100%">
+            <div class="container">
+                <h4><b>@item.Event.Name</b></h4>
+                <b>@item.Event.StartDate</b>
+                <b style="display: block;">@item.Event.Description</b>
+                @if(item.Validated){
+                    @:<p>verified<p>
+                  }
+                 else{
+                    @:<p>not verified<p>
+                  }
+            </div>
+        </div>
+        <p>&nbsp&nbsp&nbsp&nbsp</p>
+
+
+    }
+</div>
+
+<script>
+    let dict = {
+        1 : "going",
+        2 : "interested", 
+    };
+</script>
