@@ -27,13 +27,22 @@
 
 .going {
     background-color: #1F7153;
+    border: 5px solid #d4af37;
 }
 
+.going-false {
+    background-color: #1F7153;
+    border: 3px solid #1F7153;
+}
 .interested {
-    background-color: #ffa64d;
+    background-color: #2F3C49;
+    border: 5px solid #d4af37;
 }
 
+.interested-false {
+    background-color: #2F3C49;
+    border: 3px solid #2F3C49;
+}
 .edit {
     background-color: #66b3ff;
 }
-/* Red */ 

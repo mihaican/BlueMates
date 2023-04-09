@@ -55,7 +55,11 @@ namespace BlueMates.Controllers
             var events = from e in _context.Events
                          where e.StartDate >= DateTime.UtcNow
                          select e;
-
+            var interests = (from e in _context.UsersToEvents
+                            where e.UserId == userId 
+                            select new {id = e.EventId,interest_level = e.InterestLevel}).ToDictionary(x=>x.id,x=>x.interest_level); //used lookup just in case a event somehow manages to appear twice
+            
+            ViewBag.interests = interests;
             return View(events);
         }
 

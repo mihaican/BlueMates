@@ -24,8 +24,30 @@
             <h4 onclick ="location.href='@Url.Action("Details", "Events", new {id = item.Id})'"><b>@item.Name</b></h4>
             <b>@item.StartDate</b>
             <b style ="display: block;">@item.Description</b>
-                <button class="button going" onclick="location.href='@Url.Action("Going", "Events", new {event_id = item.Id})'">Going</button>
-                <button class="button interested" onclick="location.href='@Url.Action("Interested", "Events", new {event_id = item.Id})'">Interested</button>
+                @{
+                    if (ViewBag.interests.ContainsKey(item.Id))
+                    {
+                        if(ViewBag.interests[item.Id]==2){
+                            @: <button class="button going" onclick="location.href='@Url.Action("Going", "Events", new {event_id = item.Id})'">Going</button>
+                        }
+                        else{
+                            @:<button class="button going-false" onclick="location.href='@Url.Action("Going", "Events", new {event_id = item.Id})'">Going</button>
+                        }
+                        if(ViewBag.interests[item.Id]==1){
+                            @:<button class="button interested" onclick="location.href='@Url.Action("Interested", "Events", new {event_id = item.Id})'">Interested</button>
+                        }
+                        else{
+                            @:<button class="button interested-false" onclick="location.href='@Url.Action("Interested", "Events", new {event_id = item.Id})'">Interested</button>
+                        }
+
+                    }
+                    else{
+                        <button class="button going-false" onclick="location.href='@Url.Action("Going", "Events", new {event_id = item.Id})'">Going</button>
+                        <button class="button interested-false" onclick="location.href='@Url.Action("Interested", "Events", new {event_id = item.Id})'">Interested</button>
+
+                    }
+                }
+               
        
 
         </div>
