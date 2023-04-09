@@ -1,3 +1,4 @@
+using BlueMates;
 using BlueMates.Data;
 using BlueMates.Models;
 using Microsoft.AspNetCore.Identity;

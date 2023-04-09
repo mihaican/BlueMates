@@ -1,0 +1,65 @@
+﻿@model BlueMates.Models.Event
+
+@{
+    ViewData["Title"] = "Interested";
+}
+
+<link rel="stylesheet" href="/css/cards.css">
+
+<h1>Show interest in event</h1>
+
+<h3>Are you sure you want to show interest in this event?</h3>
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrganizerId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrganizerId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pic)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pic)
+        </dd>
+    </dl>
+
+    <form asp-action="InterestedConfirmed">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Interested" class="button interested"/> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

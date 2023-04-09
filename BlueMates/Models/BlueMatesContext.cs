@@ -29,11 +29,9 @@ namespace BlueMates.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-MQBHEA6\\SQLEXPRESS;Database=BlueMates;Trusted_Connection=True;TrustServerCertificate=Yes;");
+                optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnection");
             }
         }
 
@@ -76,13 +74,6 @@ namespace BlueMates.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
-
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.AspNetUser)
-                    .HasPrincipalKey<UsersToEvent>(p => p.UserId)
-                    .HasForeignKey<AspNetUser>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AspNetUsers_AspNetUsers");
 
                 entity.HasMany(d => d.Roles)
                     .WithMany(p => p.Users)
@@ -212,7 +203,10 @@ namespace BlueMates.Models
                     .IsUnicode(false)
                     .HasColumnName("name");
 
-                entity.Property(e => e.OrganizerId).HasColumnName("organizer_id").IsUnicode(false).HasMaxLength(450);
+                entity.Property(e => e.OrganizerId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false)
+                    .HasColumnName("organizer_id");
 
                 entity.Property(e => e.Pic)
                     .IsUnicode(false)
@@ -225,6 +219,7 @@ namespace BlueMates.Models
 
             modelBuilder.Entity<UsersToEvent>(entity =>
             {
+
                 entity.ToTable("users_to_events");
 
                 entity.HasIndex(e => e.UserId, "IX_users_to_events")
@@ -233,9 +228,7 @@ namespace BlueMates.Models
                 entity.HasIndex(e => e.EventId, "IX_users_to_events_1")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.EventId).HasColumnName("event_id");
 
@@ -245,9 +238,15 @@ namespace BlueMates.Models
 
                 entity.Property(e => e.Validated).HasColumnName("validated");
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Event)
                     .WithOne(p => p.UsersToEvent)
-                    .HasForeignKey<UsersToEvent>(d => d.Id)
+                    .HasForeignKey<UsersToEvent>(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_users_to_events_events1");
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.UsersToEvent)
+                    .HasForeignKey<UsersToEvent>(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_users_to_events_events");
             });

@@ -10,27 +10,28 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace BlueMates.Controllers
 {
     public class EventsController : Controller
     {
         private readonly BlueMatesContext _context;
- 
+
 
         public EventsController(BlueMatesContext context)
-        {  
+        {
             _context = context;
-            
+
         }
 
         // GET: Events
         [Authorize]
         public async Task<IActionResult> Index()
         {
-              return _context.Events != null ? 
-                          View(await _context.Events.ToListAsync()) :
-                          Problem("Entity set 'BlueMatesContext.Events'  is null.");
+            return _context.Events != null ?
+                        View(await _context.Events.ToListAsync()) :
+                        Problem("Entity set 'BlueMatesContext.Events'  is null.");
         }
 
         [HttpGet("MyEvents")]
@@ -58,6 +59,96 @@ namespace BlueMates.Controllers
             return View(events);
         }
 
+        [HttpGet("going/{event_id}")]
+        [Authorize]
+        public async Task<IActionResult> Going(int? event_id)
+        {
+            if (event_id == null || _context.Events == null)
+            {
+                return NotFound();
+            }
+            
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == event_id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            return View(@event);
+
+
+
+        }
+
+        [HttpPost, ActionName("goingConfirmed")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> GoingConfirmed(int id)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;  //TODO find a better way to get id 
+
+            UsersToEvent usersToEvent = new UsersToEvent();
+
+            usersToEvent.UserId = userId;
+            usersToEvent.EventId = id;
+            ViewBag.event_id = id;
+            usersToEvent.InterestLevel = 2;
+            usersToEvent.Validated = false;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(usersToEvent);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ComingUp));
+            }
+            return RedirectToAction(nameof(Index));  //TODO add an error
+        } 
+        public async Task<IActionResult> Interested(int? event_id)
+        {
+            if (event_id == null || _context.Events == null)
+            {
+                return NotFound();
+            }
+            
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == event_id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            return View(@event);
+
+
+
+        }
+
+        [HttpPost, ActionName("interestedConfirmed")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> InterestedConfirmed(int id)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;  //TODO find a better way to get id 
+
+            UsersToEvent usersToEvent = new UsersToEvent();
+
+            usersToEvent.UserId = userId;
+            usersToEvent.EventId = id;
+            ViewBag.event_id = id;
+            usersToEvent.InterestLevel = 1;
+            usersToEvent.Validated = false;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(usersToEvent);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ComingUp));
+            }
+            return RedirectToAction(nameof(Index));  //TODO add an error
+        }
+
+       
         [HttpGet("EventsOfInterest")]
         [Authorize]
         public async Task<IActionResult> EventsOfInterest()
@@ -69,6 +160,7 @@ namespace BlueMates.Controllers
                          on  e.Id equals ute.EventId
                          where ute.UserId == userId
                          select new EventsOfInterestResults(e,ute.InterestLevel,ute.Validated);
+            
             
             
 

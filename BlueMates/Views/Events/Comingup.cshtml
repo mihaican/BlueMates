@@ -24,8 +24,9 @@
             <h4 onclick ="location.href='@Url.Action("Details", "Events", new {id = item.Id})'"><b>@item.Name</b></h4>
             <b>@item.StartDate</b>
             <b style ="display: block;">@item.Description</b>
-                <button class="button going">Going</button>
-                <button class="button interested">Interested</button>
+                <button class="button going" onclick="location.href='@Url.Action("Going", "Events", new {event_id = item.Id})'">Going</button>
+                <button class="button interested" onclick="location.href='@Url.Action("Interested", "Events", new {event_id = item.Id})'">Interested</button>
+       
 
         </div>
     </div>

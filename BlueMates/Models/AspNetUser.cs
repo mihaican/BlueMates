@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BlueMates.Models;
 
 namespace BlueMates.Models
 {
@@ -30,8 +31,8 @@ namespace BlueMates.Models
         public int AccessFailedCount { get; set; }
         public int Credits { get; set; }
 
-        public virtual UsersToEvent IdNavigation { get; set; } = null!;
         public virtual BadgesToUser? BadgesToUser { get; set; }
+        public virtual UsersToEvent? UsersToEvent { get; set; }
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
