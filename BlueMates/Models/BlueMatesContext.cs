@@ -26,6 +26,7 @@ namespace BlueMates.Models
         public virtual DbSet<BadgesToUser> BadgesToUsers { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<UsersToEvent> UsersToEvents { get; set; } = null!;
+        public virtual DbSet<Validation> Validations { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -219,14 +220,7 @@ namespace BlueMates.Models
 
             modelBuilder.Entity<UsersToEvent>(entity =>
             {
-
                 entity.ToTable("users_to_events");
-
-                entity.HasIndex(e => e.UserId, "IX_users_to_events")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.EventId, "IX_users_to_events_1")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -234,21 +228,40 @@ namespace BlueMates.Models
 
                 entity.Property(e => e.InterestLevel).HasColumnName("interest_level");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(450)
+                    .HasColumnName("user_id");
 
                 entity.Property(e => e.Validated).HasColumnName("validated");
 
-                entity.HasOne(d => d.Event)
-                    .WithOne(p => p.UsersToEvent)
-                    .HasForeignKey<UsersToEvent>(d => d.EventId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_users_to_events_events1");
-
                 entity.HasOne(d => d.User)
-                    .WithOne(p => p.UsersToEvent)
-                    .HasForeignKey<UsersToEvent>(d => d.UserId)
+                    .WithMany(p => p.UsersToEvents)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_users_to_events_events");
+            });
+
+            modelBuilder.Entity<Validation>(entity =>
+            {
+                entity.ToTable("validations");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EventId).HasColumnName("event_id");
+
+                entity.Property(e => e.Lat).HasColumnName("lat");
+
+                entity.Property(e => e.Long).HasColumnName("long");
+
+                entity.Property(e => e.Pic).HasColumnName("pic");
+
+                entity.Property(e => e.Time)
+                    .HasColumnType("datetime")
+                    .HasColumnName("time");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(450)
+                    .HasColumnName("user_id");
             });
 
             OnModelCreatingPartial(modelBuilder);

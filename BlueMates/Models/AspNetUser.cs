@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlueMates.Models;
 
 namespace BlueMates.Models
 {
@@ -11,6 +10,7 @@ namespace BlueMates.Models
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            UsersToEvents = new HashSet<UsersToEvent>();
             Roles = new HashSet<AspNetRole>();
         }
 
@@ -32,10 +32,10 @@ namespace BlueMates.Models
         public int Credits { get; set; }
 
         public virtual BadgesToUser? BadgesToUser { get; set; }
-        public virtual UsersToEvent? UsersToEvent { get; set; }
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual ICollection<UsersToEvent> UsersToEvents { get; set; }
 
         public virtual ICollection<AspNetRole> Roles { get; set; }
     }

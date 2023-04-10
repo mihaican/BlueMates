@@ -4,6 +4,8 @@
     ViewData["Title"] = "Events you interacted with";
 }
 
+<link rel="stylesheet" href="./css/cards.css">
+
 <h1>Here you can see all the events you interacted with</h1>
 
 <div>
@@ -20,7 +22,7 @@
                     @:<p>verified<p>
                   }
                  else{
-                    @:<p>not verified<p>
+                    @:<p onclick="location.href='@Url.Action("Validate", "Validation", new {event_id = item.Event.Id})'">not verified <p>
                   }
             </div>
         </div>
@@ -30,9 +32,3 @@
     }
 </div>
 
-<script>
-    let dict = {
-        1 : "going",
-        2 : "interested", 
-    };
-</script>

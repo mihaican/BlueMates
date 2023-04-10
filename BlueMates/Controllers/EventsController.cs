@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using System.Drawing.Imaging;
 
 namespace BlueMates.Controllers
 {
@@ -152,7 +153,6 @@ namespace BlueMates.Controllers
             return RedirectToAction(nameof(Index));  //TODO add an error
         }
 
-       
         [HttpGet("EventsOfInterest")]
         [Authorize]
         public async Task<IActionResult> EventsOfInterest()
@@ -172,6 +172,7 @@ namespace BlueMates.Controllers
             return View(events);
         }
 
+       
         // GET: Events/Details/5
         [Authorize]
         public async Task<IActionResult> Details(int? id)
@@ -284,7 +285,7 @@ namespace BlueMates.Controllers
                 return NotFound();
             }
 
-            return View(@event);
+            return View(@event); 
         }
 
         // POST: Events/Delete/5

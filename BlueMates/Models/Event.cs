@@ -13,7 +13,5 @@ namespace BlueMates.Models
         public string? Location { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Pic { get; set; }
-
-        public virtual UsersToEvent? UsersToEvent { get; set; }
     }
 }

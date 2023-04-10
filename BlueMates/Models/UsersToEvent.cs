@@ -11,7 +11,6 @@ namespace BlueMates.Models
         public int InterestLevel { get; set; }
         public bool Validated { get; set; }
 
-        public virtual Event Event { get; set; } = null!;
         public virtual AspNetUser User { get; set; } = null!;
     }
 }

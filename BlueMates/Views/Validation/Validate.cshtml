@@ -1,0 +1,33 @@
+﻿@model BlueMates.Models.Validation
+
+<body onload="get_location();">
+    <p>Click the button to get your coordinates.</p>
+
+    @using (Html.BeginForm("ValidateConfirmed", "Validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
+            <input id="longitude" asp-for="Lat" type="hidden" />
+            <input id="latitude" asp-for="Long" type="hidden" />
+            <input type="submit" value="Upload" />
+            <input value=@ViewBag.EventId asp-for="Id" />
+            @ViewBag.Message
+        </div>
+    }
+</body>
+
+<script>
+    function show(pos) {
+        let location = [0, 0];
+        location[0] = pos.coords.latitude;
+        location[1] = pos.coords.longitude;
+        document.getElementById("latitude").setAttribute("value", location[0]);
+        document.getElementById("longitude").setAttribute("value", location[1]);
+        alert(location[0]);
+    }
+    function get_location() {
+        navigator.geolocation.getCurrentPosition(show);
+
+
+    }
+</script>

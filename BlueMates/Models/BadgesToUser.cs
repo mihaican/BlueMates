@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlueMates.Models;
 
 namespace BlueMates.Models
 {
